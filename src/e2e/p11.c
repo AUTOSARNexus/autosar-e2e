@@ -58,8 +58,8 @@ PyDoc_STRVAR(e2e_p11_protect_doc,
              "Calculate CRC inplace according to AUTOSAR E2E Profile 11. \n"
              "\n"
              ":param bytearray data: \n"
-             "    Mutable `bytes-like object <https://docs.python.org/3/glossary.html#term-bytes-like-object>`_\n"
-             "    starting with the CRC byte. This CRC byte will be updated inplace. \n"
+             "    Mutable `bytes-like object <https://docs.python.org/3/glossary.html#term-bytes-like-object>`_.\n"
+             "    This CRC byte will be updated inplace. \n"
              ":param int data_id: \n"
              "    A unique identifier which is used to protect against masquerading. The `data_id` is a 16bit unsigned integer. \n"
              ":param int data_id_mode: \n"
@@ -104,8 +104,8 @@ static PyObject *py_e2e_p11_protect(PyObject *module, PyObject *args, PyObject *
                         "object that implements the buffer protocol.");
         goto error;
     }
-    if (data.len <= 2) {
-        PyErr_SetString(PyExc_ValueError, "The length of bytearray \"data\" must be greater than 2.");
+    if (data.len < 2) {
+        PyErr_SetString(PyExc_ValueError, "The length of bytearray \"data\" must be greater than 1.");
         goto error;
     }
     if (length == 0u) {
