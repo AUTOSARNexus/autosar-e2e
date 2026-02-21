@@ -1,4 +1,14 @@
+from _typeshed import WriteableBuffer, ReadableBuffer
+
 def e2e_p02_protect(
-    data: bytearray, length: int, data_id_list: bytes, *, increment_counter: bool = True
+    data: WriteableBuffer,
+    length: int,
+    data_id_list: bytes,
+    *,
+    increment_counter: bool = True,
 ) -> None: ...
-def e2e_p02_check(data: bytes, length: int, data_id_list: bytes) -> bool: ...
+def e2e_p02_check(
+    data: ReadableBuffer,
+    length: int,
+    data_id_list: bytes,
+) -> bool: ...

@@ -1,5 +1,7 @@
+from _typeshed import WriteableBuffer, ReadableBuffer
+
 def e2e_p06_protect(
-    data: bytearray,
+    data: WriteableBuffer,
     length: int,
     data_id: int,
     *,
@@ -7,5 +9,9 @@ def e2e_p06_protect(
     increment_counter: bool = True,
 ) -> None: ...
 def e2e_p06_check(
-    data: bytes, length: int, data_id: int, *, offset: int = 0
+    data: ReadableBuffer,
+    length: int,
+    data_id: int,
+    *,
+    offset: int = 0,
 ) -> bool: ...
