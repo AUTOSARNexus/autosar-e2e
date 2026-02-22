@@ -13,6 +13,8 @@
 #define E2E_P11_DATAID_BOTH   0x0
 #define E2E_P11_DATAID_NIBBLE 0x3
 
+#define P11HEADER_LEN         2u
+
 uint8_t compute_p11_crc(uint8_t *data_ptr,
                         uint16_t length,
                         uint16_t data_id,
@@ -117,6 +119,10 @@ static PyObject *py_e2e_p11_protect(PyObject *module, PyObject *args, PyObject *
                         "condition: 2 <= length <= len(data).");
         goto error;
     }
+    if (offset > length - P11HEADER_LEN) {
+        PyErr_SetString(PyExc_ValueError, "Argument \"offset\" invalid.");
+        goto error;
+    }
 
     unsigned short crc_offset            = (offset * 8u) + 0u;
     unsigned short counter_offset        = (offset * 8u) + 8u;
@@ -125,8 +131,7 @@ static PyObject *py_e2e_p11_protect(PyObject *module, PyObject *args, PyObject *
     uint8_t       *data_ptr              = (uint8_t *)data.buf;
 
     // Write the counter
-    uint8_t        counter               = 0u;
-    counter                              = (*(data_ptr + (counter_offset >> 3)) & 0x0F);
+    uint8_t        counter               = (*(data_ptr + (counter_offset >> 3)) & 0x0F);
     if (increment_counter) {
         counter                             = (counter + 1) % 0x0F; // alive counter in range 0-14
         *(data_ptr + (counter_offset >> 3)) = (*(data_ptr + (counter_offset >> 3)) & 0xF0) | counter;
@@ -219,6 +224,10 @@ static PyObject *py_e2e_p11_check(PyObject *module, PyObject *args, PyObject *kw
         PyErr_SetString(PyExc_ValueError,
                         "Parameter \"length\" must fulfill the following "
                         "condition: 2 <= length <= len(data).");
+        goto error;
+    }
+    if (offset > length - P11HEADER_LEN) {
+        PyErr_SetString(PyExc_ValueError, "Argument \"offset\" invalid.");
         goto error;
     }
 
