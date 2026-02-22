@@ -27,9 +27,6 @@ Description
 
 This library provides fast C implementations of the E2E CRC algorithms and E2E profiles.
 
-Currently all relevant CRC algorithms are available in module `e2e.crc`
-but only E2E profile 2 is available. If you provide example data for other profiles i would try to implement them, too.
-
 Installation
 ------------
 You can install ``autosar-e2e`` from `PyPI`_::
@@ -53,14 +50,13 @@ Usage
 
     # create data
     data = bytearray(b"\x00" *  8)
-    length = len(data) - 1
     data_id_list = b"\x00" * 16
 
     # increment counter and calculate CRC inplace
-    e2e.p02.e2e_p02_protect(data, length, data_id_list, increment_counter=True)
+    e2e.p02.e2e_p02_protect(data, data_id_list, increment_counter=True)
 
     # check CRC
-    crc_correct: bool = e2e.p02.e2e_p02_check(data, length, data_id_list)
+    crc_correct: bool = e2e.p02.e2e_p02_check(data, data_id_list)
 
 
 Test
@@ -68,8 +64,7 @@ Test
 
 Run the tests with::
 
-   pip install pipx
-   pipx run tox
+   uvx tox
 
 
 Build
@@ -77,9 +72,8 @@ Build
 
 Build ``autosar-e2e`` with::
 
-    pip install pipx
-    pipx run build
-    pipx run twine check dist/*
+    uv build
+    uvx twine check dist/*
 
 
 License
