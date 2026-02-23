@@ -27,6 +27,7 @@ def test_e2e_p02_protect():
         data
     ), data.hex(sep=" ")
 
+
 def test_e2e_p02_protect_increment():
     data = bytearray(8)
     data_id_list = bytes(range(1, 17))
@@ -63,6 +64,7 @@ def test_e2e_p02_protect_increment():
     assert b"\xcd\x0f\x00\x00\x00\x00\x00\x00" == bytes(data), data.hex(sep=" ")
     e2e.p02.e2e_p02_protect(data, data_id_list, increment_counter=True)  # counter=00
     assert b"\x0e\x00\x00\x00\x00\x00\x00\x00" == bytes(data), data.hex(sep=" ")
+
 
 def test_e2e_p02_check():
     data = bytearray(range(8))
